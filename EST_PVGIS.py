@@ -10,7 +10,8 @@ def PV_power(
     latitude,
     longitude,
     property_type,
-    yearly_consumption
+    yearly_consumption,
+    turbine_height
 ):
     numyears = endyear - startyear + 1
     data, meta, inputs = get_pvgis_hourly(
