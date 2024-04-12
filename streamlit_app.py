@@ -16,6 +16,18 @@ PropertyDict={
     "g0":"General Business", "g1":"Weekday Business","g2":"Evening Business","g3":"Continuous Business",
     "g4":"Shop or Barber","g5":"Bakery","g6":"Weekend Business",
     "l0":"General Farm","l1":"Dairy or Livestock Farm", "l2":"Other Farm", "h0":"Household"}
+LandCoverDict={
+    "Water surfaces: seas and Lakes":                                                                         0.0002,
+    "Open terrain with smooth surface, e.g. concrete, airport runways, mown grass etc.":                      0.0024,
+    "Open agricultural land without fences and hedges; maybe some far apart buildings and very gentle hills": 0.03,
+    "Agricultural land with a few buildings and 8 m high hedges separated by more than 1 km":                 0.055,
+    "Agricultural land with a few buildings and 8 m high hedges separated by approx. 500 m":                  0.1,
+    "Agricultural land with many trees, bushes and plants, or 8 m high hedges separated by approx. 250 m":    0.2,
+    "Towns, villages, agricultural land with many or high hedges, forests and very rough and uneven terrain": 0.4,
+    "Large towns with high buildings":                                                                        0.6,
+    "Large cities with high buildings and skyscrapers":                                                       1.6
+}
+
 invPropertyDict = {v: k for k, v in PropertyDict.items()}
 
 start = 2013
@@ -55,7 +67,7 @@ with col1:
         annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
         PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
         turbine_height = st.number_input('Wind turbine height [m]',value=5,step=1)
-        land_cover_type = st.number_input('Land cover type',value=0,step=1)
+        land_cover_type = st.selectbox('What is the type of surrounding land cover?',LandCoverDict.keys())
         button = st.form_submit_button(label="Plot the plot!")
             
 with col2:
