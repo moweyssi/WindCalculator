@@ -29,6 +29,7 @@ LandCoverDict={
 }
 
 invPropertyDict = {v: k for k, v in PropertyDict.items()}
+invLandCoverDict = {v: k for k, v in LandCoverDict.items()}
 
 start = 2013
 end = 2016
@@ -77,6 +78,7 @@ with col2:
         Made with :heart: by the Energy Saving Trust
         """
         st.markdown('<sub><sup>All errors are 95% confidence intervals (i.e. 1.96 x standard error on the mean)</sub></sup>',unsafe_allow_html=True)
+        st.text(LandCoverDict[land_cover_type])
         with col3:
             """##\n##"""
             st.image(logo)
