@@ -23,7 +23,7 @@ def PV_power(
     )
     
     #Correct wind speed to height of turbine : https://wind-data.ch/tools/profile.php?lng=en
-    data["wind_speed"] = data["wind_speed"] * np.ln(turbine_height/land_cover_type) / np.ln(10/land_cover_type)
+    data["wind_speed"] = data["wind_speed"] * np.log(turbine_height/land_cover_type) / np.log(10/land_cover_type)
 
     years = np.arange(startyear, endyear + 1, 1).tolist()
     all_years_daily_average = []
