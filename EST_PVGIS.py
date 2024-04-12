@@ -5,17 +5,12 @@ from EST_BDEW import yearly_BDEW
 
 
 def PV_power(
-    max_power,
     startyear,
     endyear,
     latitude,
     longitude,
-    surface_tilt,
-    surface_azimuth,
     property_type,
-    yearly_consumption,
-    pvtechchoice="crystSi",
-    mountingplace="free",
+    yearly_consumption
 ):
     numyears = endyear - startyear + 1
     data, meta, inputs = get_pvgis_hourly(
@@ -34,7 +29,7 @@ def PV_power(
 
         """MONTHLY ANALYSIS"""
         monthsyear = []
-        groupyear = data["WS10m"][str(year)].groupby(pd.Grouper(freq="M"))
+        groupyear = data["wind_speed"][str(year)].groupby(pd.Grouper(freq="M"))
         for date, group in groupyear:
             monthsyear.append(np.array(group.to_numpy()))
 
@@ -61,7 +56,7 @@ def PV_power(
             / 4
         )
         yearly_demand = yearly_demand[property_type]
-        yearly_pv = data["WS10m"][str(year)] / 1000
+        yearly_pv = data["wind_speed"][str(year)]
         intersection = np.amin([yearly_demand, yearly_pv], axis=0)
         yearly_gen.append(np.sum(yearly_pv).astype(int))
         yearly_use.append(np.sum(intersection).astype(int))
@@ -73,8 +68,8 @@ def PV_power(
     use_error = np.std(np.array(yearly_use), ddof=1) / np.sqrt(len(yearly_use))
 
     return (
-        daily_average / 1000,
-        daily_error / 1000,
+        daily_average,
+        daily_error,
         (int(np.mean(yearly_gen)), int(1.96 * gen_error)),
         (int(np.mean(yearly_use)), int(1.96 * use_error)),
     )  # convert into kWh
