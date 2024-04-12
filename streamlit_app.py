@@ -80,8 +80,10 @@ with col2:
         # Welcome to the PVGIS-BDEW Tool!
         Made with :heart: by the Energy Saving Trust
         """
-        st.markdown('<sub><sup>All errors are 95% confidence intervals (i.e. 1.96 x standard error on the mean)</sub></sup>',unsafe_allow_html=True)
+        st.write("All errors are 95% confidence intervals (i.e. 1.96 x standard error on the mean)")
         st.write("Wind turbine power curve modelling is based on this paper: https://arxiv.org/pdf/1909.13780.pdf")
+        st.write("Good resource for finding wind turbine parameters is: https://en.wind-turbine-models.com/turbines/")
+
         with col3:
             """##\n##"""
             st.image(logo)
