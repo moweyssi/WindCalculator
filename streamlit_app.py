@@ -54,7 +54,7 @@ with col1:
         property_type = st.selectbox('What is the property type?',PropertyDict.values())
         annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
         PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
-        turbine_height = st.number_input('Wind turbine height [m]',value=15,step=1)
+        turbine_height = st.number_input('Wind turbine height [m]',value=5,step=1)
         land_cover_type = st.number_input('Land cover type',value=0,step=1)
         button = st.form_submit_button(label="Plot the plot!")
             
