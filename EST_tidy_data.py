@@ -26,31 +26,31 @@ def makedf(property_type, lat, lon, annual_consumption,start_year, end_year, tur
         "Sunday\n Demand [kWh]": [],
     }
     average = {
-        "PV\n Generation [kWh]": [],
-        "Workday Demand\n Covered by PV": [],
-        "Saturday Demand\n Covered by PV": [],
-        "Sunday Demand\n Covered by PV": [],
-        "Workday PV\n Used by Demand": [],
-        "Saturday PV\n Used by Demand": [],
-        "Sunday PV\n Used by Demand": [],
+        "Wind\n Generation [kWh]": [],
+        "Workday Demand\n Covered by Wind": [],
+        "Saturday Demand\n Covered by Wind": [],
+        "Sunday Demand\n Covered by Wind": [],
+        "Workday Wind\n Used by Demand": [],
+        "Saturday Wind\n Used by Demand": [],
+        "Sunday Wind\n Used by Demand": [],
     }
     min = {
-        "Cloudy\n PV\n Generation [kWh]": [],
-        "Cloudy\n Workday Demand\n Covered by PV": [],
-        "Cloudy\n Saturday Demand\n Covered by PV": [],
-        "Cloudy\n Sunday Demand\n Covered by PV": [],
-        "Cloudy\n Workday PV\n Used by Demand": [],
-        "Cloudy\n Saturday PV\n Used by Demand": [],
-        "Cloudy\n Sunday PV\n Used by Demand": [],
+        "Still\n Wind\n Generation [kWh]": [],
+        "Still\n Workday Demand\n Covered by Wind": [],
+        "Still\n Saturday Demand\n Covered by Wind": [],
+        "Still\n Sunday Demand\n Covered by Wind": [],
+        "Still\n Workday Wind\n Used by Demand": [],
+        "Still\n Saturday Wind\n Used by Demand": [],
+        "Still\n Sunday Wind\n Used by Demand": [],
     }
     max = {
-        "Sunny\n PV\n Generation [kWh]": [],
-        "Sunny\n Workday Demand\n Covered by PV": [],
-        "Sunny\n Saturday Demand\n Covered by PV": [],
-        "Sunny\n Sunday Demand\n Covered by PV": [],
-        "Sunny\n Workday PV\n Used by Demand": [],
-        "Sunny\n Saturday PV\n Used by Demand": [],
-        "Sunny\n Sunday PV\n Used by Demand": [],
+        "Windy\n Wind\n Generation [kWh]": [],
+        "Windy\n Workday Demand\n Covered by Wind": [],
+        "Windy\n Saturday Demand\n Covered by Wind": [],
+        "Windy\n Sunday Demand\n Covered by Wind": [],
+        "Windy\n Workday Wind\n Used by Demand": [],
+        "Windy\n Saturday Wind\n Used by Demand": [],
+        "Windy\n Sunday Wind\n Used by Demand": [],
     }
 
     for month in range(12):
@@ -62,7 +62,7 @@ def makedf(property_type, lat, lon, annual_consumption,start_year, end_year, tur
         generation_min = generation-2*error
         generation_max = generation+2*error
 
-        """Find % of demand covered by PV"""
+        """Find % of demand covered by Wind"""
         workday_intersection        = np.trapz(np.amin([workday[month],generation], axis=0),time)/4
         saturday_intersection       = np.trapz(np.amin([saturday[month],generation], axis=0),time)/4
         sunday_intersection         = np.trapz(np.amin([sunday[month],generation], axis=0),time)/4
@@ -96,26 +96,26 @@ def makedf(property_type, lat, lon, annual_consumption,start_year, end_year, tur
         max_sunday_demand_covered   = 100*max_sunday_intersection/sunday_demand
 
 
-        """Find % of PV output used"""
-        workday_PV_used        = 100*workday_intersection/total_generation
-        saturday_PV_used       = 100*saturday_intersection/total_generation
-        sunday_PV_used         = 100*sunday_intersection/total_generation
+        """Find % of Wind output used"""
+        workday_Wind_used        = 100*workday_intersection/total_generation
+        saturday_Wind_used       = 100*saturday_intersection/total_generation
+        sunday_Wind_used         = 100*sunday_intersection/total_generation
     
-        min_workday_PV_used    = 100*min_workday_intersection/total_min_generation
-        min_saturday_PV_used   = 100*min_saturday_intersection/total_min_generation
-        min_sunday_PV_used     = 100*min_sunday_intersection/total_min_generation
+        min_workday_Wind_used    = 100*min_workday_intersection/total_min_generation
+        min_saturday_Wind_used   = 100*min_saturday_intersection/total_min_generation
+        min_sunday_Wind_used     = 100*min_sunday_intersection/total_min_generation
 
-        max_workday_PV_used    = 100*max_workday_intersection/total_max_generation
-        max_saturday_PV_used   = 100*max_saturday_intersection/total_max_generation
-        max_sunday_PV_used     = 100*max_sunday_intersection/total_max_generation
+        max_workday_Wind_used    = 100*max_workday_intersection/total_max_generation
+        max_saturday_Wind_used   = 100*max_saturday_intersection/total_max_generation
+        max_sunday_Wind_used     = 100*max_sunday_intersection/total_max_generation
         
 
         """Write time-data into Pandas data frame"""
         df = pd.DataFrame({
             'time'          : time,
-            'PV generation' : generation,
-            'PV min'        : generation_min,
-            'PV max'        : generation_max,
+            'Wind generation' : generation,
+            'Wind min'        : generation_min,
+            'Wind max'        : generation_max,
             'BDEW workday'  : workday[month],
             'BDEW saturday' : saturday[month],
             'BDEW sunday'   : sunday[month]
@@ -127,29 +127,29 @@ def makedf(property_type, lat, lon, annual_consumption,start_year, end_year, tur
         bdew_demand['Saturday\n Demand [kWh]'].append(str(int(saturday_demand)))
         bdew_demand['Sunday\n Demand [kWh]'].append(str(int(sunday_demand)))
 
-        average['PV\n Generation [kWh]'].append(format((total_generation),'.2f'))
-        average['Workday Demand\n Covered by PV'].append(str(int(workday_demand_covered))+'%')
-        average['Workday PV\n Used by Demand'].append(str(int(workday_PV_used))+'%')
-        average['Saturday Demand\n Covered by PV'].append(str(int(saturday_demand_covered))+'%')
-        average['Saturday PV\n Used by Demand'].append(str(int(saturday_PV_used))+'%')
-        average['Sunday Demand\n Covered by PV'].append(str(int(sunday_demand_covered))+'%')
-        average['Sunday PV\n Used by Demand'].append(str(int(sunday_PV_used))+'%')
+        average['Wind\n Generation [kWh]'].append(format((total_generation),'.2f'))
+        average['Workday Demand\n Covered by Wind'].append(str(int(workday_demand_covered))+'%')
+        average['Workday Wind\n Used by Demand'].append(str(int(workday_Wind_used))+'%')
+        average['Saturday Demand\n Covered by Wind'].append(str(int(saturday_demand_covered))+'%')
+        average['Saturday Wind\n Used by Demand'].append(str(int(saturday_Wind_used))+'%')
+        average['Sunday Demand\n Covered by Wind'].append(str(int(sunday_demand_covered))+'%')
+        average['Sunday Wind\n Used by Demand'].append(str(int(sunday_Wind_used))+'%')
 
-        min['Cloudy\n PV\n Generation [kWh]'].append(format((total_min_generation),'.2f'))
-        min['Cloudy\n Workday Demand\n Covered by PV'].append(str(int(min_workday_demand_covered))+'%')
-        min['Cloudy\n Saturday Demand\n Covered by PV'].append(str(int(min_saturday_demand_covered))+'%')
-        min['Cloudy\n Sunday Demand\n Covered by PV'].append(str(int(min_sunday_demand_covered))+'%')
-        min['Cloudy\n Workday PV\n Used by Demand'].append(str(int(min_workday_PV_used))+'%')
-        min['Cloudy\n Saturday PV\n Used by Demand'].append(str(int(min_saturday_PV_used))+'%')
-        min['Cloudy\n Sunday PV\n Used by Demand'].append(str(int(min_sunday_PV_used))+'%')
+        min['Still\n Wind\n Generation [kWh]'].append(format((total_min_generation),'.2f'))
+        min['Still\n Workday Demand\n Covered by Wind'].append(str(int(min_workday_demand_covered))+'%')
+        min['Still\n Saturday Demand\n Covered by Wind'].append(str(int(min_saturday_demand_covered))+'%')
+        min['Still\n Sunday Demand\n Covered by Wind'].append(str(int(min_sunday_demand_covered))+'%')
+        min['Still\n Workday Wind\n Used by Demand'].append(str(int(min_workday_Wind_used))+'%')
+        min['Still\n Saturday Wind\n Used by Demand'].append(str(int(min_saturday_Wind_used))+'%')
+        min['Still\n Sunday Wind\n Used by Demand'].append(str(int(min_sunday_Wind_used))+'%')
 
-        max['Sunny\n PV\n Generation [kWh]'].append(format((total_max_generation),'.2f'))
-        max['Sunny\n Workday Demand\n Covered by PV'].append(str(int(max_workday_demand_covered))+'%')
-        max['Sunny\n Saturday Demand\n Covered by PV'].append(str(int(max_saturday_demand_covered))+'%')
-        max['Sunny\n Sunday Demand\n Covered by PV'].append(str(int(max_sunday_demand_covered))+'%')
-        max['Sunny\n Workday PV\n Used by Demand'].append(str(int(max_workday_PV_used))+'%')
-        max['Sunny\n Saturday PV\n Used by Demand'].append(str(int(max_saturday_PV_used))+'%')
-        max['Sunny\n Sunday PV\n Used by Demand'].append(str(int(max_sunday_PV_used))+'%')
+        max['Windy\n Wind\n Generation [kWh]'].append(format((total_max_generation),'.2f'))
+        max['Windy\n Workday Demand\n Covered by Wind'].append(str(int(max_workday_demand_covered))+'%')
+        max['Windy\n Saturday Demand\n Covered by Wind'].append(str(int(max_saturday_demand_covered))+'%')
+        max['Windy\n Sunday Demand\n Covered by Wind'].append(str(int(max_sunday_demand_covered))+'%')
+        max['Windy\n Workday Wind\n Used by Demand'].append(str(int(max_workday_Wind_used))+'%')
+        max['Windy\n Saturday Wind\n Used by Demand'].append(str(int(max_saturday_Wind_used))+'%')
+        max['Windy\n Sunday Wind\n Used by Demand'].append(str(int(max_sunday_Wind_used))+'%')
 
         df_list.append(df)
 
