@@ -91,14 +91,14 @@ with col2:
         month = invMonthDict[month_slider]
         day = st.radio("What day?",('workday','saturday','sunday'),horizontal=True,label_visibility='hidden')
 
-        stats = ('Annual PV generation = ' + str(yearly_gen[0])+' ± '+str(yearly_gen[1])+' kWh             '+
-                'PV energy used per year = '+str(yearly_use[0])+' ± '+str(yearly_use[1])+' kWh')
+        stats = ('Annual Wind generation = ' + str(yearly_gen[0])+' ± '+str(yearly_gen[1])+' kWh             '+
+                'Wind energy used per year = '+str(yearly_use[0])+' ± '+str(yearly_use[1])+' kWh')
         st.code(stats)
-        PV = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
+        Wind = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
         x='time',
-        y=alt.Y('PV generation'))
+        y=alt.Y('Wind generation'))
 
-        error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='PV min',y2='PV max')
+        error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='Wind min',y2='Wind max')
         if day == 'workday':
             BDEW = alt.Chart(df[month-1]).mark_line(strokeWidth=6,color='red').encode(x='time',y='BDEW workday')
         elif day == 'saturday':
@@ -106,7 +106,7 @@ with col2:
         elif day == 'sunday':
             BDEW = alt.Chart(df[month-1]).mark_line(strokeWidth=6,color='red').encode(x='time',y='BDEW sunday')
 
-        chart = PV+error +BDEW
+        chart = Wind+error +BDEW
         chart.height=530
         st.altair_chart(chart,use_container_width=True)
 
@@ -119,8 +119,8 @@ with col3:
             year_df = pd.DataFrame(
                 index = ['a','b','c'],
                 columns = ['Annual \nDemand: ' + str(annual_consumption)+' kWh',
-                 'Annual PV \ngeneration: ' + (str(yearly_gen[0])+' ± '+str(yearly_gen[1])+' kWh'),
-                 ('Annual PV \n used: ' + str(yearly_use[0])+' ± '+str(yearly_use[1])+' kWh')])
+                 'Annual Wind \ngeneration: ' + (str(yearly_gen[0])+' ± '+str(yearly_gen[1])+' kWh'),
+                 ('Annual Wind \n used: ' + str(yearly_use[0])+' ± '+str(yearly_use[1])+' kWh')])
             frames = [average,cloudy,sunny,bdew_demand,year_df]
             start_row = 1
             writer = pd.ExcelWriter(output, engine='xlsxwriter')
