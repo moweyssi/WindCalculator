@@ -46,8 +46,8 @@ st.set_page_config(layout="wide")
 logo = Image.open('logo.png')
 col1, col2, col3 = st.columns([4,12,1.1])
 @st.cache
-def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption,turbine_height,land_cover_type):
-    return makedf(invPropertyDict[property_type],lat, lon, annual_consumption,start, end, turbine_height,land_cover_type)
+def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption,turbine_height,land_cover_type, turbine_nominal_power, turbine_rotor_diameter, cutin_speed, cutoff_speed):
+    return makedf(invPropertyDict[property_type],lat, lon, annual_consumption,start, end, turbine_height,land_cover_type, turbine_nominal_power, turbine_rotor_diameter, cutin_speed, cutoff_speed)
 
 with col1:
     location = st.radio("How to imput location?",("Coordinates","Postcode"),horizontal=True,label_visibility='hidden')
@@ -66,8 +66,11 @@ with col1:
     with st.form(key="Input parameters"):
         property_type = st.selectbox('What is the property type?',PropertyDict.values())
         annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
-        PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
         turbine_height = st.number_input('Wind turbine height [m]',value=5,step=1)
+        turbine_nominal_power = st.number_input('Turbine nominal power [kW]',value=10,step=0.1)
+        turbine_rotor_diameter = st.number_input('Turbine rotor diameter [m]',value=10.2,step=0.1)
+        cutin_speed = st.number_input('Cut-in speed [m/s]',value=3,step=.1)
+        cutoff_speed = st.number_input('Cut-off speed [m/s]',value=25,step=.1)
         land_cover_type = st.selectbox('What is the type of surrounding land cover?',LandCoverDict.keys())
         button = st.form_submit_button(label="Plot the plot!")
             
@@ -93,7 +96,7 @@ with col2:
         st.code(stats)
         PV = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
         x='time',
-        y=alt.Y('PV generation'))#,scale=alt.Scale(domain=(0,PV_max_power*2/3))))
+        y=alt.Y('PV generation'))
 
         error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='PV min',y2='PV max')
         if day == 'workday':
