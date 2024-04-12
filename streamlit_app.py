@@ -80,7 +80,7 @@ with col2:
         st.code(stats)
         PV = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
         x='time',
-        y=alt.Y('PV generation',scale=alt.Scale(domain=(0,PV_max_power*2/3))))
+        y=alt.Y('PV generation'))#,scale=alt.Scale(domain=(0,PV_max_power*2/3))))
 
         error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='PV min',y2='PV max')
         if day == 'workday':
@@ -125,7 +125,7 @@ with col3:
         st.text("Download:\n")
         st.download_button(label='📥',
                                     data=toexport ,
-                                    file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_"+str(PV_max_power)+"kWp.xlsx")
+                                    file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_"+str(turbine_height)+"m_turbine.xlsx")
         
 
         
