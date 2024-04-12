@@ -78,7 +78,6 @@ with col2:
         Made with :heart: by the Energy Saving Trust
         """
         st.markdown('<sub><sup>All errors are 95% confidence intervals (i.e. 1.96 x standard error on the mean)</sub></sup>',unsafe_allow_html=True)
-        st.text(LandCoverDict[land_cover_type])
         with col3:
             """##\n##"""
             st.image(logo)
@@ -107,6 +106,7 @@ with col2:
         chart = PV+error +BDEW
         chart.height=530
         st.altair_chart(chart,use_container_width=True)
+        st.text(LandCoverDict[land_cover_type])
 
 with col3:
     if (lon,lat)!=(0,0):
