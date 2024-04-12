@@ -29,8 +29,7 @@ def PV_power(
     
     #Correct wind speed to height of turbine : https://wind-data.ch/tools/profile.php?lng=en
     data["wind_speed"] = data["wind_speed"] * np.log(turbine_height/land_cover_type) / np.log(10/land_cover_type)
-    Pnom    = 2000
-    Drotor  = 80
+
     data["WindPower"] = GWTPC.GenericWindTurbinePowerCurve(data["wind_speed"],
                                                            Pnom=turbine_nominal_power,
                                                            Drotor=turbine_rotor_diameter,
