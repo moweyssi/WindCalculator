@@ -67,7 +67,7 @@ with col1:
         property_type = st.selectbox('What is the property type?',PropertyDict.values())
         annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
         turbine_height = st.number_input('Wind turbine height [m]',value=5,step=1)
-        turbine_nominal_power = st.number_input('Turbine nominal power [kW]',value=10,step=0.1)
+        #turbine_nominal_power = st.number_input('Turbine nominal power [kW]',value=10,step=0.1)
         turbine_rotor_diameter = st.number_input('Turbine rotor diameter [m]',value=10.2,step=0.1)
         cutin_speed = st.number_input('Cut-in speed [m/s]',value=3,step=.1)
         cutoff_speed = st.number_input('Cut-off speed [m/s]',value=25,step=.1)
