@@ -83,7 +83,7 @@ with col2:
         st.write("All errors are 95% confidence intervals (i.e. 1.96 x standard error on the mean)")
         st.write("Wind turbine power curve modelling is based on this paper: https://arxiv.org/pdf/1909.13780.pdf")
         st.write("Good resource for finding wind turbine parameters is: https://en.wind-turbine-models.com/turbines/")
-
+        st.write("Wind speed data at 10m height from PVGIS is scaled using this calculator: https://wind-data.ch/tools/profile.php?lng=en")
         with col3:
             """##\n##"""
             st.image(logo)
