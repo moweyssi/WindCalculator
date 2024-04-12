@@ -33,8 +33,8 @@ st.set_page_config(layout="wide")
 logo = Image.open('logo.png')
 col1, col2, col3 = st.columns([4,12,1.1])
 @st.cache
-def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption):
-    return makedf(invPropertyDict[property_type],lat, lon, annual_consumption,start, end)
+def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption,turbine_height):
+    return makedf(invPropertyDict[property_type],lat, lon, annual_consumption,start, end, turbine_height)
 
 with col1:
     location = st.radio("How to imput location?",("Coordinates","Postcode"),horizontal=True,label_visibility='hidden')
@@ -54,7 +54,7 @@ with col1:
         property_type = st.selectbox('What is the property type?',PropertyDict.values())
         annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
         PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
-        surface_tilt = st.number_input('Surface tilt [degrees]',value=35,step=1)
+        turbine_height = st.number_input('Wind turbine height [m]',value=15,step=1)
         surface_azimuth = st.number_input('Surface azimuth [degrees]',value=0,step=1)
         button = st.form_submit_button(label="Plot the plot!")
             
@@ -70,7 +70,7 @@ with col2:
             st.image(logo)
     else:
         df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
-                    property_type,lat,lon,annual_consumption)
+                    property_type,lat,lon,annual_consumption,turbine_height)
         month_slider = st.select_slider("Month", MonthDict.values(),label_visibility='hidden')
         month = invMonthDict[month_slider]
         day = st.radio("What day?",('workday','saturday','sunday'),horizontal=True,label_visibility='hidden')

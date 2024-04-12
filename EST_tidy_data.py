@@ -11,10 +11,10 @@ PropertyDict={
     "g4":"Shop / Barber","g5":"Bakery",	 "g6":"Weekend Business","g7":"Mobile Phone Transmitter Station",
     "l0":"General Farm","l1":"Dairy / Livestock Farm", "l2":"Other Farm", "h0":"Household"}
 
-def makedf(property_type, lat, lon, annual_consumption,start_year, end_year):
+def makedf(property_type, lat, lon, annual_consumption,start_year, end_year, turbine_height):
 
     generation_hourly, error_hourly, yearly_generation, yearly_used  = PV_power(
-        start_year,end_year,lat,lon,property_type, annual_consumption
+        start_year,end_year,lat,lon,property_type, annual_consumption, turbine_height
         )
     time_hourly = np.linspace(0,24,24)
     time = np.linspace(0,24,24*4)
