@@ -2,6 +2,7 @@ from pvlib_parse import get_pvgis_hourly
 import pandas as pd
 import numpy as np
 from EST_BDEW import yearly_BDEW
+import GenericWindTurbinePowerCurve as GWTPC
 
 
 def PV_power(
@@ -12,7 +13,11 @@ def PV_power(
     property_type,
     yearly_consumption,
     turbine_height,
-    land_cover_type
+    land_cover_type,
+    turbine_nominal_power = 10,
+    turbine_rotor_diameter = 10.2,
+    cutin_speed = 3,
+    cutoff_speed = 25
 ):
     numyears = endyear - startyear + 1
     data, meta, inputs = get_pvgis_hourly(
@@ -24,6 +29,13 @@ def PV_power(
     
     #Correct wind speed to height of turbine : https://wind-data.ch/tools/profile.php?lng=en
     data["wind_speed"] = data["wind_speed"] * np.log(turbine_height/land_cover_type) / np.log(10/land_cover_type)
+    Pnom    = 2000
+    Drotor  = 80
+    data["WindPower"] = GWTPC.GenericWindTurbinePowerCurve(data["wind_speed"],
+                                                           Pnom=turbine_nominal_power,
+                                                           Drotor=turbine_rotor_diameter,
+                                                           Vcutin=cutin_speed,
+                                                           Vcutoff=cutoff_speed)
 
     years = np.arange(startyear, endyear + 1, 1).tolist()
     all_years_daily_average = []
