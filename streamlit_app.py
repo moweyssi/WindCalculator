@@ -17,13 +17,13 @@ PropertyDict={
     "g4":"Shop or Barber","g5":"Bakery","g6":"Weekend Business",
     "l0":"General Farm","l1":"Dairy or Livestock Farm", "l2":"Other Farm", "h0":"Household"}
 LandCoverDict={
-    "Water surfaces: seas and Lakes":                                                                         0.0002,
-    "Open terrain with smooth surface, e.g. concrete, airport runways, mown grass etc.":                      0.0024,
-    "Open agricultural land without fences and hedges; maybe some far apart buildings and very gentle hills": 0.03,
-    "Agricultural land with a few buildings and 8 m high hedges separated by more than 1 km":                 0.055,
-    "Agricultural land with a few buildings and 8 m high hedges separated by approx. 500 m":                  0.1,
-    "Agricultural land with many trees, bushes and plants, or 8 m high hedges separated by approx. 250 m":    0.2,
     "Towns, villages, agricultural land with many or high hedges, forests and very rough and uneven terrain": 0.4,
+    "Agricultural land with many trees, bushes and plants, or 8 m high hedges separated by approx. 250 m":    0.2,
+    "Agricultural land with a few buildings and 8 m high hedges separated by approx. 500 m":                  0.1,
+    "Open agricultural land without fences and hedges; maybe some far apart buildings and very gentle hills": 0.03,
+    "Open terrain with smooth surface, e.g. concrete, airport runways, mown grass etc.":                      0.0024,
+    "Water surfaces: seas and Lakes":                                                                         0.0002,
+    "Agricultural land with a few buildings and 8 m high hedges separated by more than 1 km":                 0.055,
     "Large towns with high buildings":                                                                        0.6,
     "Large cities with high buildings and skyscrapers":                                                       1.6
 }
@@ -65,8 +65,8 @@ with col1:
             lat,lon=0,0
     with st.form(key="Input parameters"):
         property_type = st.selectbox('What is the property type?',PropertyDict.values())
-        annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
-        turbine_height = st.number_input('Wind turbine height [m]',value=5,step=1)
+        annual_consumption = st.number_input('Annual property consumption [kWh]',value=20000,step=10)
+        turbine_height = st.number_input('Wind turbine height [m]',value=18,step=1)
         turbine_nominal_power = st.number_input('Turbine nominal power [kW]',value=10.0,step=0.1,min_value=5.0,max_value=20.0)
         turbine_rotor_diameter = st.number_input('Turbine rotor diameter [m]',value=10.2,step=0.1,min_value=5.0,max_value=20.0)
         cutin_speed = st.number_input('Cut-in speed [m/s]',value=3.0,step=.1,min_value=1.4,max_value=6.1)
