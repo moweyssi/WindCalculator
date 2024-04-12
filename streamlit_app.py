@@ -33,8 +33,8 @@ st.set_page_config(layout="wide")
 logo = Image.open('logo.png')
 col1, col2, col3 = st.columns([4,12,1.1])
 @st.cache
-def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption, PV_max_power):
-    return makedf(invPropertyDict[property_type],lat, lon, annual_consumption, PV_max_power,start, end)
+def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption):
+    return makedf(invPropertyDict[property_type],lat, lon, annual_consumption,start, end)
 
 with col1:
     location = st.radio("How to imput location?",("Coordinates","Postcode"),horizontal=True,label_visibility='hidden')
