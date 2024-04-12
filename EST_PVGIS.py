@@ -22,13 +22,7 @@ def PV_power(
         latitude,
         longitude,
         start=startyear,
-        end=endyear,
-        pvcalculation=True,
-        peakpower=max_power,
-        surface_tilt=surface_tilt,
-        surface_azimuth=surface_azimuth,
-        pvtechchoice=pvtechchoice,
-        mountingplace=mountingplace,
+        end=endyear
     )
 
     years = np.arange(startyear, endyear + 1, 1).tolist()
@@ -40,7 +34,7 @@ def PV_power(
 
         """MONTHLY ANALYSIS"""
         monthsyear = []
-        groupyear = data["P"][str(year)].groupby(pd.Grouper(freq="M"))
+        groupyear = data["WS10m"][str(year)].groupby(pd.Grouper(freq="M"))
         for date, group in groupyear:
             monthsyear.append(np.array(group.to_numpy()))
 
@@ -67,7 +61,7 @@ def PV_power(
             / 4
         )
         yearly_demand = yearly_demand[property_type]
-        yearly_pv = data["P"][str(year)] / 1000
+        yearly_pv = data["WS10m"][str(year)] / 1000
         intersection = np.amin([yearly_demand, yearly_pv], axis=0)
         yearly_gen.append(np.sum(yearly_pv).astype(int))
         yearly_use.append(np.sum(intersection).astype(int))
