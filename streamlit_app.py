@@ -83,7 +83,7 @@ with col2:
             st.image(logo)
     else:
         df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
-                    property_type,lat,lon,annual_consumption,turbine_height,land_cover_type)
+                    property_type,lat,lon,annual_consumption,turbine_height,LandCoverDict[land_cover_type])
         month_slider = st.select_slider("Month", MonthDict.values(),label_visibility='hidden')
         month = invMonthDict[month_slider]
         day = st.radio("What day?",('workday','saturday','sunday'),horizontal=True,label_visibility='hidden')
@@ -106,7 +106,6 @@ with col2:
         chart = PV+error +BDEW
         chart.height=530
         st.altair_chart(chart,use_container_width=True)
-        st.text(LandCoverDict[land_cover_type])
 
 with col3:
     if (lon,lat)!=(0,0):
