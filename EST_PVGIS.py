@@ -5,7 +5,7 @@ from EST_BDEW import yearly_BDEW
 import GenericWindTurbinePowerCurve as GWTPC
 
 
-def PV_power(
+def Wind_power(
     startyear,
     endyear,
     latitude,

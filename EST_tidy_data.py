@@ -1,5 +1,5 @@
 from EST_BDEW import get_BDEW
-from EST_PVGIS import PV_power
+from EST_PVGIS import Wind_power
 import numpy as np
 import pandas as pd
 
@@ -13,7 +13,7 @@ PropertyDict={
 
 def makedf(property_type, lat, lon, annual_consumption,start_year, end_year, turbine_height,land_cover_type, turbine_nominal_power = 10, turbine_rotor_diameter = 10.2, cutin_speed = 3, cutoff_speed = 25):
 
-    generation_hourly, error_hourly, yearly_generation, yearly_used  = PV_power(
+    generation_hourly, error_hourly, yearly_generation, yearly_used  = Wind_power(
         start_year,end_year,lat,lon,property_type, annual_consumption, turbine_height,land_cover_type, turbine_nominal_power = 10, turbine_rotor_diameter = 10.2, cutin_speed = 3, cutoff_speed = 25
         )
     time_hourly = np.linspace(0,24,24)
